@@ -18,6 +18,7 @@
   --nav-h: 44px;
 }
 
+/* DESKTOP: body locked, scroll inside wrapper */
 html, body {
   height: 100%;
   background: var(--bg);
@@ -25,6 +26,7 @@ html, body {
   font-family: var(--font);
   font-weight: 300;
   overflow: hidden;
+  cursor: none;
 }
 
 /* NAV */
@@ -36,81 +38,36 @@ nav {
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   padding: 0 20px;
-  z-index: 100;
+  z-index: 1000;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
 }
-
-.nav-logo {
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  color: var(--fg);
-  text-decoration: none;
-}
+.nav-logo { font-size: 14px; font-weight: 400; letter-spacing: 0.02em; color: var(--fg); text-decoration: none; }
 .logo-short { display: none; }
-
-.nav-center {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.nav-link {
-  font-size: 14px;
-  font-weight: 300;
-  letter-spacing: 0.05em;
-  color: var(--muted);
-  text-decoration: none;
-  transition: color 0.15s;
-}
+.nav-center { display: flex; align-items: center; gap: 24px; }
+.nav-link { font-size: 14px; font-weight: 300; letter-spacing: 0.05em; color: var(--muted); text-decoration: none; transition: color 0.15s; }
 .nav-link:hover { color: var(--fg); }
 .nav-link.active { color: #4830f9; }
-
-.nav-right {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 20px;
-}
+.nav-right { display: flex; align-items: center; justify-content: flex-end; gap: 20px; }
 .toggle-icon { display: none; }
-
-/* VIEW TOGGLE */
-.view-toggle {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
+.view-toggle { display: flex; align-items: center; gap: 24px; }
 .toggle-btn {
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 300;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 2px 0;
-  border-bottom: 1px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
+  font-family: var(--mono); font-size: 11px; font-weight: 300;
+  letter-spacing: 0.08em; color: var(--muted); background: none;
+  border: none; cursor: pointer; padding: 2px 0;
+  border-bottom: 1px solid transparent; transition: color 0.15s, border-color 0.15s;
 }
 .toggle-btn:hover { color: var(--fg); }
 .toggle-btn.active { color: var(--fg); border-bottom-color: var(--fg); }
 
-
-/* SCROLL CONTAINER */
+/* HORIZONTAL STACKING SCROLL */
 .scroll-wrapper {
   position: fixed;
-  top: var(--nav-h);
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: var(--nav-h); left: 0; right: 0; bottom: 0;
   overflow-x: auto;
   overflow-y: hidden;
-  scroll-behavior: smooth;
   cursor: none;
 }
-
 .scroll-wrapper::-webkit-scrollbar { display: none; }
 
 .scroll-track {
@@ -118,52 +75,34 @@ nav {
   align-items: stretch;
   height: 100%;
   width: max-content;
-  padding: 0;
 }
 
-/* PROJECT ITEMS */
+/* Cards: sticky left:0 so each new card slides in from the right and stacks */
 .project-item {
-  position: relative;
+  position: sticky;
+  left: 0;
+  width: 100vw;
   height: 100%;
   flex-shrink: 0;
   overflow: hidden;
   cursor: none;
-  border-right: 1px solid var(--border);
+  transform-origin: center center;
+  will-change: transform;
 }
 
-/* Variable widths for visual rhythm */
-.project-item:nth-child(3n+1) { width: calc(100vw * 0.55); }
-.project-item:nth-child(3n+2) { width: calc(100vw * 0.42); }
-.project-item:nth-child(3n+3) { width: calc(100vw * 0.62); }
-
+.project-placeholder {
+  width: 100%; height: 100%;
+  background: #f5f5f5;
+}
 .project-img {
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
-  pointer-events: none;
-  user-select: none;
-}
-
-.project-item:hover .project-img {
-  transform: scale(1.03);
-}
-
-/* Placeholder image styling */
-.project-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: flex-end;
-  padding: 28px;
-  background: #f5f5f5;
-  transition: background 0.3s;
 }
 .project-item:nth-child(even) .project-placeholder { background: #efefef; }
-.project-item:nth-child(3n) .project-placeholder { background: #e8e8e8; }
+.project-item:nth-child(3n)   .project-placeholder { background: #e8e8e8; }
 
-/* OVERLAY INFO */
+/* Overlay: hover only on desktop */
 .project-overlay {
   position: absolute;
   top: 0; left: 0; right: 0;
@@ -172,147 +111,45 @@ nav {
   opacity: 0;
   transition: opacity 0.25s;
 }
-
 .project-item:hover .project-overlay { opacity: 1; }
 
 .project-label {
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 300;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 4px;
+  font-family: var(--mono); font-size: 11px; font-weight: 300;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 4px;
 }
-
 .project-title {
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  color: var(--fg);
-  line-height: 1.3;
+  font-size: 14px; font-weight: 400;
+  letter-spacing: 0.01em; color: var(--fg); line-height: 1.3;
 }
-
 .project-link {
-  display: block;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0; left: 0;
+  display: block; width: 100%; height: 100%;
+  position: absolute; top: 0; left: 0;
   text-decoration: none;
-}
-
-/* SIDE INFO — first panel */
-.side-info {
-  height: 100%;
-  width: 200px;
-  flex-shrink: 0;
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 0 20px 28px;
-}
-.side-info p {
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 300;
-  color: var(--muted);
-  line-height: 1.7;
-  letter-spacing: 0.03em;
-}
-
-/* END PANEL */
-.end-panel {
-  height: 100%;
-  width: 200px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 0 20px 28px;
-}
-.end-panel p {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
-  font-weight: 300;
-  letter-spacing: 0.03em;
 }
 
 /* CUSTOM CURSOR */
 .cursor {
-  width: 48px;
-  height: 48px;
-  border: 1px solid var(--fg);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
+  width: 48px; height: 48px;
+  border: 1px solid var(--fg); border-radius: 50%;
+  position: fixed; pointer-events: none; z-index: 9999;
   transform: translate(-50%, -50%);
-  transition: width 0.2s, height 0.2s, opacity 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transition: width 0.2s, height 0.2s;
+  display: flex; align-items: center; justify-content: center;
 }
 .cursor-label {
-  font-family: var(--mono);
-  font-size: 8px;
-  letter-spacing: 0.1em;
-  color: var(--fg);
-  text-transform: uppercase;
-  opacity: 0;
-  transition: opacity 0.2s;
+  font-family: var(--mono); font-size: 8px;
+  letter-spacing: 0.1em; color: var(--fg);
+  text-transform: uppercase; opacity: 0; transition: opacity 0.2s;
 }
-.cursor.hovering {
-  width: 80px;
-  height: 80px;
-  background: var(--fg);
-  border-color: var(--fg);
-}
-.cursor.hovering .cursor-label {
-  opacity: 1;
-  color: var(--bg);
-}
+.cursor.hovering { width: 80px; height: 80px; background: var(--fg); border-color: var(--fg); }
+.cursor.hovering .cursor-label { opacity: 1; color: var(--bg); }
 
-/* DRAG HINT */
-.drag-hint {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  color: var(--muted);
-  text-transform: uppercase;
-  opacity: 1;
-  transition: opacity 0.5s;
-  pointer-events: none;
-  z-index: 50;
-}
-.drag-hint.hidden { opacity: 0; }
-
-/* SCROLL PROGRESS */
-.scroll-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  background: var(--fg);
-  width: 0%;
-  z-index: 50;
-  transition: width 0.05s;
-}
-
-/* MOBILE — stacking card scroll */
+/* MOBILE: vertical stacking */
 @media (max-width: 768px) {
-  /* html visibile, solo body scrolla — necessario per sticky su iOS Safari */
-  html { height: auto; overflow: visible; cursor: auto; }
+  html { height: auto; overflow: visible; }
   body { height: auto; overflow-y: auto; overflow-x: hidden; cursor: auto; }
   .cursor { display: none; }
-  .drag-hint { display: none; }
-  .scroll-bar { display: none; }
 
   .scroll-wrapper {
     position: static;
@@ -320,84 +157,44 @@ nav {
     height: auto;
     cursor: auto;
   }
-
   .scroll-track {
     flex-direction: column;
     width: 100%;
     height: auto;
-    align-items: stretch;
-    gap: 0;
     padding-top: var(--nav-h);
     padding-bottom: 20px;
   }
-
-  .side-info { display: none; }
-  .end-panel { display: none; }
-
-  /* Full-height cards che si impilano */
   .project-item {
+    position: sticky;
+    left: auto;
+    top: var(--nav-h);
     width: 100% !important;
-    /* dvh si aggiorna col browser chrome di Safari; fallback a vh */
     height: calc(100vh - var(--nav-h));
     height: calc(100dvh - var(--nav-h));
     flex-shrink: 0;
-    border-right: none;
-    border-bottom: none;
     border-radius: 12px;
-    overflow: hidden;
-
-    position: sticky;
-    top: var(--nav-h);
-
     box-shadow: 0 -4px 28px rgba(0,0,0,0.10);
     transform-origin: center top;
-    will-change: transform;
-    z-index: 1;
+    cursor: auto;
   }
-
-  /* Assign increasing z-index so each new card covers the previous */
-  .project-item:nth-child(1)  { z-index: 2; }
-  .project-item:nth-child(2)  { z-index: 3; }
-  .project-item:nth-child(3)  { z-index: 4; }
-  .project-item:nth-child(4)  { z-index: 5; }
-  .project-item:nth-child(5)  { z-index: 6; }
-  .project-item:nth-child(6)  { z-index: 7; }
-  .project-item:nth-child(7)  { z-index: 8; }
-  .project-item:nth-child(8)  { z-index: 9; }
-  .project-item:nth-child(9)  { z-index: 10; }
-  .project-item:nth-child(10) { z-index: 11; }
-
-  .project-placeholder {
-    height: 100%;
-    border-radius: 12px;
-  }
-
+  .project-item:nth-child(1)  { z-index: 2 !important; }
+  .project-item:nth-child(2)  { z-index: 3 !important; }
+  .project-item:nth-child(3)  { z-index: 4 !important; }
+  .project-item:nth-child(4)  { z-index: 5 !important; }
+  .project-item:nth-child(5)  { z-index: 6 !important; }
+  .project-item:nth-child(6)  { z-index: 7 !important; }
+  .project-item:nth-child(7)  { z-index: 8 !important; }
+  .project-item:nth-child(8)  { z-index: 9 !important; }
+  .project-item:nth-child(9)  { z-index: 10 !important; }
+  .project-item:nth-child(10) { z-index: 11 !important; }
+  .project-placeholder { height: 100%; border-radius: 12px; }
   .project-overlay {
     opacity: 1;
     background: linear-gradient(rgba(255,255,255,0.97) 0%, transparent 60%);
     padding: 20px 16px;
   }
-
   .project-label { font-size: 10px; }
   .project-title { font-size: 15px; }
-  .logo-full { display: none; }
-}
-
-/* DESKTOP: overlap sticky cards */
-@media (min-width: 769px) {
-  .project-item {
-    width: 100vw !important;
-    position: sticky;
-    left: 0;
-    transform-origin: center center;
-    border-right: none;
-  }
-  .side-info { display: none; }
-  .end-panel { display: none; }
-  .scroll-bar { display: none; }
-}
-
-@media (max-width: 768px) {
   .logo-full { display: none; }
   .logo-short { display: inline; }
   .toggle-label { display: none; }
@@ -435,162 +232,126 @@ nav {
 </nav>
 
 <div class="scroll-wrapper" id="scrollWrapper">
-  <div class="scroll-track" id="scrollTrack">
-
-    <!-- Side info panel -->
-    <div class="side-info">
-      <p>
-        Francesca Spagnolo<br>
-        Visual Designer<br>
-        ©2026
-      </p>
-    </div>
-
-    <!-- End panel -->
-    <div class="end-panel">
-      <p>Fine<br>portfolio</p>
-    </div>
-
-  </div>
+  <div class="scroll-track" id="scrollTrack"></div>
 </div>
 
 <script src="data.js"></script>
 <script>
 (function() {
   const track = document.getElementById('scrollTrack');
-  const endPanel = track.querySelector('.end-panel');
   projects.forEach(p => {
     const el = document.createElement('div');
     el.className = 'project-item';
+    const cover = p.images && p.images.cover;
     el.innerHTML = `
-      <div class="project-placeholder"></div>
+      ${cover
+        ? `<img src="${cover}" class="project-img" alt="${p.title.join(' ')}">`
+        : `<div class="project-placeholder"></div>`}
       <a href="project.html?id=${p.id}" class="project-link"></a>
       <div class="project-overlay">
         <p class="project-label">${p.category} — ${p.year}</p>
         <p class="project-title">${p.title.join('<br>')}</p>
       </div>`;
-    track.insertBefore(el, endPanel);
+    track.appendChild(el);
   });
 })();
 </script>
 
-<div class="drag-hint" id="dragHint">scroll →</div>
-
-<div class="scroll-bar" id="scrollBar"></div>
-
 <script>
-// Cursor
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove', e => {
   cursor.style.left = e.clientX + 'px';
   cursor.style.top = e.clientY + 'px';
 });
 
-const wrapper = document.getElementById('scrollWrapper');
-const track = document.getElementById('scrollTrack');
-const dragHint = document.getElementById('dragHint');
+const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-if (window.innerWidth > 768) {
-  // ── DESKTOP: infinite horizontal overlap + snap scroll ──
+if (!isMobile) {
+  // ── DESKTOP: horizontal stacking with infinite scroll ──
+  const wrapper = document.getElementById('scrollWrapper');
+  const track   = document.getElementById('scrollTrack');
+
   const origItems = Array.from(track.querySelectorAll('.project-item'));
   const n = origItems.length;
 
-  // Prepend clones (forward order: 0..n-1)
-  origItems.slice().reverse().forEach(item => {
-    track.insertBefore(item.cloneNode(true), origItems[0]);
-  });
-  // Append clones
+  // Build 3 sets: [clones][originals][clones]
   origItems.forEach(item => track.appendChild(item.cloneNode(true)));
+  const preFrag = document.createDocumentFragment();
+  origItems.forEach(item => preFrag.appendChild(item.cloneNode(true)));
+  track.insertBefore(preFrag, origItems[0]);
 
-  const all = Array.from(track.querySelectorAll('.project-item'));
+  const allItems = Array.from(track.querySelectorAll('.project-item'));
 
-  // Z-index: later in DOM = on top
-  all.forEach((el, i) => { el.style.zIndex = i + 1; });
-
-  // Track width = 3n × 100vw
-  track.style.width = (all.length * 100) + 'vw';
-
-  // Cursor hover on all (including clones)
-  all.forEach(el => {
+  // Assign increasing z-index so each card stacks above the previous
+  allItems.forEach((el, i) => {
+    el.style.zIndex = i + 1;
     el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
     el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
   });
 
-  const cardW = wrapper.clientWidth;
-  let current = n; // index in all[], starts at first original card
-  let busy = false;
+  requestAnimationFrame(() => {
+    const vw = wrapper.clientWidth;
+    const setWidth = n * vw;
 
-  // Go to position instantly (no animation)
-  function jumpTo(idx) {
-    current = idx;
+    // Jump to middle set
     wrapper.style.scrollBehavior = 'auto';
-    wrapper.scrollLeft = current * cardW;
+    wrapper.scrollLeft = setWidth;
     wrapper.style.scrollBehavior = '';
-  }
 
-  // Advance one card with smooth animation, then handle infinite loop
-  function advance(dir) {
-    if (busy) return;
-    busy = true;
-    dragHint.classList.add('hidden');
+    // Scale animation: card being covered shrinks, entering card is full size
+    function updateScale(sl) {
+      allItems.forEach((card, i) => {
+        const natural = i * vw;
+        if (sl >= natural + vw) {
+          card.style.transform = 'scale(0.92)';
+        } else if (sl > natural) {
+          const prog = (sl - natural) / vw;
+          card.style.transform = `scale(${1 - prog * 0.08})`;
+        } else {
+          card.style.transform = '';
+        }
+      });
+    }
+    updateScale(setWidth);
 
-    current += dir;
-    wrapper.style.scrollBehavior = 'smooth';
-    wrapper.scrollLeft = current * cardW;
+    // Wheel → horizontal scroll
+    wrapper.addEventListener('wheel', e => {
+      e.preventDefault();
+      const delta = e.deltaMode === 0 ? e.deltaY * 2.5 : e.deltaY * 80;
+      wrapper.scrollLeft += delta;
+    }, { passive: false });
 
-    setTimeout(() => {
-      wrapper.style.scrollBehavior = 'auto';
-      // Seamless infinite reset
-      if (current >= 2 * n) { current -= n; wrapper.scrollLeft = current * cardW; }
-      if (current < n)      { current += n; wrapper.scrollLeft = current * cardW; }
-      wrapper.style.scrollBehavior = '';
-      busy = false;
-    }, 520);
-  }
-
-  jumpTo(n);
-
-  // Wheel: debounce direction, then snap one card
-  let lastDir = 0;
-  let debounce = null;
-  wrapper.addEventListener('wheel', e => {
-    e.preventDefault();
-    const dir = e.deltaY > 0 ? 1 : e.deltaY < 0 ? -1 : 0;
-    if (!dir) return;
-    lastDir = dir;
-    clearTimeout(debounce);
-    debounce = setTimeout(() => { advance(lastDir); }, 40);
-  }, { passive: false });
-
-  // Scale effect during scroll
-  wrapper.addEventListener('scroll', () => {
-    const sl = wrapper.scrollLeft;
-    const idx = Math.floor(sl / cardW);
-    const prog = (sl % cardW) / cardW;
-    all.forEach((el, i) => {
-      if (i === idx)     el.style.transform = prog > 0.005 ? `scale(${1 - prog * 0.08})` : '';
-      else if (i < idx)  el.style.transform = 'scale(0.92)';
-      else               el.style.transform = '';
+    // Seamless infinite loop + scale update
+    wrapper.addEventListener('scroll', () => {
+      const sl = wrapper.scrollLeft;
+      if (sl >= setWidth * 2) {
+        wrapper.style.scrollBehavior = 'auto';
+        wrapper.scrollLeft -= setWidth;
+        wrapper.style.scrollBehavior = '';
+        return;
+      }
+      if (sl < setWidth) {
+        wrapper.style.scrollBehavior = 'auto';
+        wrapper.scrollLeft += setWidth;
+        wrapper.style.scrollBehavior = '';
+        return;
+      }
+      updateScale(sl);
     });
   });
 
 } else {
-  // ── MOBILE: vertical stacking scale ──
-  document.querySelectorAll('.project-item').forEach(item => {
-    item.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
-    item.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
-  });
-
-  const stackCards = Array.from(document.querySelectorAll('.project-item'));
-  const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 44;
+  // ── MOBILE: vertical stacking ──
+  const track = document.getElementById('scrollTrack');
+  const items = Array.from(track.querySelectorAll('.project-item'));
+  const navH  = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 44;
 
   function updateStack() {
     const vh = window.innerHeight;
-    const range = vh - navH;
-    stackCards.forEach((card, i) => {
-      if (i === stackCards.length - 1) return;
-      const nextTop = stackCards[i + 1].getBoundingClientRect().top;
-      const progress = Math.max(0, Math.min(1, (vh - nextTop) / range));
+    items.forEach((card, i) => {
+      if (i === items.length - 1) return;
+      const rect = items[i + 1].getBoundingClientRect();
+      const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh - navH)));
       card.style.transform = progress > 0 ? `scale(${1 - progress * 0.10})` : '';
     });
   }

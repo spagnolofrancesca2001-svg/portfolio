@@ -124,6 +124,12 @@ main {
   padding: 14px 16px 16px;
   border-top: 1px solid var(--border);
   display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.grid-info-top {
+  display: flex;
   justify-content: space-between;
   align-items: baseline;
 }
@@ -135,8 +141,8 @@ main {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
-  order: 2;
   text-align: right;
+  flex-shrink: 0;
 }
 
 .grid-title {
@@ -144,10 +150,15 @@ main {
   font-weight: 400;
   letter-spacing: 0.01em;
   color: var(--fg);
-  text-align: left;
-  max-width: 55%;
   line-height: 1.35;
-  order: 1;
+}
+
+.grid-category {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--muted);
 }
 
 /* Arrow on hover */
@@ -294,12 +305,18 @@ main {
     el.href = `project.html?id=${p.id}`;
     el.className = 'grid-item';
     el.dataset.category = p.category.toLowerCase().replace(/\s*\/\s*/g, '-');
+    const cover = p.images && p.images.cover;
     el.innerHTML = `
       <span class="grid-arrow">↗</span>
-      <div class="grid-img"><div class="img-placeholder"></div></div>
+      <div class="grid-img">${cover
+        ? `<img src="${cover}" alt="${p.title.join(' ')}" style="width:100%;height:100%;object-fit:cover;display:block;">`
+        : `<div class="img-placeholder"></div>`}</div>
       <div class="grid-info">
-        <span class="grid-meta">${p.category} — ${p.year}</span>
-        <span class="grid-title">${p.title.join(' ')}</span>
+        <div class="grid-info-top">
+          <span class="grid-title">${p.title.join(' ')}</span>
+          <span class="grid-meta">${p.year}</span>
+        </div>
+        <span class="grid-category">${p.category}</span>
       </div>`;
     grid.appendChild(el);
   });

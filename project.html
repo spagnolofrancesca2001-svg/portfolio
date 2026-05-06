@@ -64,7 +64,6 @@ main { margin-top: var(--nav-h); }
   background: #f0f0f0;
   position: relative;
   overflow: hidden;
-  border-bottom: 1px solid var(--border);
 }
 .hero-img-placeholder {
   width: 100%; height: 100%;
@@ -113,6 +112,7 @@ main { margin-top: var(--nav-h); }
   color: var(--muted); max-width: 640px;
   margin-bottom: 40px;
 }
+.project-description p + p { margin-top: 16px; }
 
 /* IMAGE GALLERY */
 .project-images {
@@ -120,7 +120,6 @@ main { margin-top: var(--nav-h); }
   gap: 2px;
 }
 
-.img-row-2 { grid-template-columns: 1fr 1fr; }
 .img-row-1 { grid-template-columns: 1fr; }
 
 .project-image-block {
@@ -192,7 +191,6 @@ main { margin-top: var(--nav-h); }
 /* RESPONSIVE */
 @media (max-width: 800px) {
   .info-strip { grid-template-columns: 1fr 1fr; }
-  .img-row-2 { grid-template-columns: 1fr; }
   body { cursor: auto; }
   .cursor { display: none; }
 }
@@ -231,22 +229,6 @@ main { margin-top: var(--nav-h); }
     </div>
   </div>
 
-  <!-- About strip -->
-  <div class="info-strip">
-    <div class="info-cell">
-      <p class="info-label">Client</p>
-      <p class="info-value" data-field="client"></p>
-    </div>
-    <div class="info-cell">
-      <p class="info-label">Year</p>
-      <p class="info-value" data-field="year"></p>
-    </div>
-    <div class="info-cell">
-      <p class="info-label">Category</p>
-      <p class="info-value" data-field="category"></p>
-    </div>
-  </div>
-
   <!-- Content -->
   <div class="project-content">
 
@@ -263,8 +245,13 @@ main { margin-top: var(--nav-h); }
 
         <div style="height:2px;"></div>
 
-        <div class="img-section img-row-2" style="display:grid;gap:2px;">
+        <div class="img-section img-row-1" style="display:grid;">
           <div class="project-image-block" style="background:#f0f0f0;"></div>
+        </div>
+
+        <div style="height:2px;"></div>
+
+        <div class="img-section img-row-1" style="display:grid;">
           <div class="project-image-block" style="background:#e4e4e4;"></div>
         </div>
 
@@ -295,6 +282,24 @@ main { margin-top: var(--nav-h); }
   const prev = projects[(id - 1 + n) % n];
   const next = projects[(id + 1) % n];
 
+  // Hero image
+  const heroEl = document.querySelector('.hero-img-placeholder');
+  if (p.images && p.images.hero) {
+    heroEl.innerHTML = `<img src="${p.images.hero}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="${p.title.join(' ')}">`;
+  }
+
+  // Gallery images
+  if (p.images && p.images.gallery && p.images.gallery.length) {
+    const galleryEl = document.querySelector('.project-images');
+    galleryEl.innerHTML = p.images.gallery.map(src => `
+      <div class="img-section img-row-1" style="display:grid;">
+        <div class="project-image-block" style="aspect-ratio:unset;">
+          <img src="${src}" style="width:100%;display:block;" alt="">
+        </div>
+      </div>
+      <div style="height:2px;"></div>`).join('');
+  }
+
   document.querySelector('.psb-label').textContent = `${p.category} — ${p.year}`;
   document.querySelector('.psb-title').innerHTML = p.title.join('<br>');
 
@@ -302,7 +307,8 @@ main { margin-top: var(--nav-h); }
     el.textContent = p[el.dataset.field] || '';
   });
 
-  document.querySelector('.project-description').textContent = p.description;
+  const descEl = document.querySelector('.project-description');
+  descEl.innerHTML = p.description.split('\n').map(para => `<p>${para}</p>`).join('');
 
   const prevEl = document.getElementById('proj-prev');
   prevEl.href = `project.html?id=${prev.id}`;
