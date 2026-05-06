@@ -6,7 +6,13 @@ const projects = [
     title: ["forte_forte loves tomasa"],
     client: "forte_forte",
     role: "Art Direction, Video Editing",
-    description: "Descrizione del progetto. Racconta il brief, l'approccio creativo e il risultato. Cosa rendeva questo progetto interessante? Quale problema hai risolto? Come hai lavorato con il cliente? Sii specifico e diretto — chi legge vuole capire il tuo processo, non solo vedere i risultati.",
+    description: "Brief
+forte_forte is an Italian advanced contemporary fashion brand, present in 11 boutiques worldwide and 600 wholesale partners. For their SS25 capsule collection, they collaborated with Tomasa — a Guatemalan accessories brand rooted in the beadwork tradition of an indigenous community from the villages around Lake Atitlán. The result was six handmade beaded necklaces, each depicting a different animal. My role was art direction, photography direction and video content for the launch campaign.
+Concept
+Working with a limited budget, the challenge was to make the craftsmanship feel alive rather than simply documented. I gave each animal its own personality by separating still life photographs into layers in After Effects and animating them digitally — five short videos, five different characters. The result sits somewhere between stop motion and illustration.
+Result
+The campaign was covered by WWD, Vogue Italia, Elle France and Pambianco, and the collection launched across forte_forte's boutiques, e-commerce and 600 wholesale partners worldwide.
+",
     image: ""
   },
   {
