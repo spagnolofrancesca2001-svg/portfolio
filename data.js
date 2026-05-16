@@ -13,9 +13,9 @@ Working with a limited budget, the challenge was to make the craftsmanship feel 
 The campaign was covered by WWD, Vogue Italia, Elle France and Pambianco, and the collection launched across forte_forte's boutiques, e-commerce and 600 wholesale partners worldwide.`,
     images: {
       cover: "img/tomasa-hero.jpg",
-      hero: "img/tomasa-hero.jpg",
-      gallery: []
-    }
+      hero: "img/tomasa-hero.jpg",                                              
+      gallery: []                
+    }                                                                           
   },
   {
     id: 1,
@@ -32,7 +32,13 @@ The campaign was covered by Marie Claire Italia, Grazia, Vanity Fair Italia, Won
     images: {
       cover: "img/suicoke-hero.gif",
       hero: "img/suicoke-hero.gif",
-      gallery: []
+      gallery: ["img/suicoke-01.jpg",
+    "img/suicoke-02.jpg",
+    "img/suicoke-03.jpg",
+    "img/suicoke-04.jpg",
+    "img/suicoke-05.jpg",
+    "img/suicoke-06.jpg",
+    "img/suicoke-07.jpg"]
     }
   },
   {
@@ -67,7 +73,7 @@ The name SUUP plays with the word "soup" - stretching it slightly, making it fee
 The identity was developed across all key touchpoints: logo system, typography, colour palette, Instagram feed and stories templates, staff uniform, signage and printed menu. The system is designed to be recognisable even without the logo - through photography style, colour accents and tone of voice alone.
 
 SUUP makes soup feel like somewhere you want to eat on a Friday night. It respects the Portuguese culinary tradition - the caldo verde, the açorda, the sopa de pedra - while framing it in a visual language that has nothing to apologise for.`,
-    images: { cover: "", hero: "", gallery: [] }
+    images: { cover: "img/SUUP-hero.jpg", hero: "img/SUUP-hero.jpg", gallery: [] }
   },
   {
     id: 4,
@@ -81,7 +87,7 @@ SUUP makes soup feel like somewhere you want to eat on a Friday night. It respec
 My work covered naming, logo design, claim - love yourself, always - colour palette and all brand collaterals, plus art direction for packshots and mood photography. The packaging was developed in collaboration with Daam Studio for the technical production aspects. The direction was quiet and intentional: a soft sans-serif logotype built on Anna's initials, an all-white packaging system, and a visual language designed to feel personal without being precious.
 
 Animae launched with a lip and face collection and has since expanded into a full skincare range - serums, creams, eye care and more - maintaining the same visual identity across an increasingly wide product line.`,
-    images: { cover: "", hero: "", gallery: [] }
+    images: { cover: "img/animae-hero.jpg", hero: "img/animae-hero.jpg", gallery: [] }
   },
   {
     id: 5,
@@ -109,6 +115,6 @@ The volume was published by Lettera22 and distributed through the museum booksho
 The solution was to strip away everything decorative and work with restraint. A logo that feels handcrafted but precise, a palette drawn from Italian domestic interiors rather than restaurant clichés, typography that references tradition without quoting it directly. The art direction avoids staged food photography - natural light, real gestures, images that feel like a memory rather than an advertisement. The social media system was designed to maintain this tone consistently: a grid that feels curated without feeling cold, stories that communicate practically without losing warmth.
 
 Brand identity including logo, typography and collaterals, social media system with Instagram grid, stories layouts and highlights, and a supporting print material as part of the communication strategy.`,
-    images: { cover: "", hero: "", gallery: [] }
+    images: { cover: "img/casa bosa - hero.jpg", hero: "img/casa bosa - hero.jpg", gallery: [] }
   },
 ];
