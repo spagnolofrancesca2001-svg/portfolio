@@ -110,11 +110,12 @@ The volume was published by Lettera22 and distributed through the museum booksho
     title: ["Casa Bosa"],
     client: "Casa Bosa",
     role: "Brand Identity & Social Media",
-    description: `The Italian restaurant market is one of the most saturated in the world. Everyone has nonna's recipes, everyone claims authenticity, everyone uses the same visual codes - red, white, rustic typefaces, olive branches. The challenge was to build an Italian restaurant brand that is genuinely traditional in its food and values, but refuses to look like every other Italian restaurant. No reinventions on the plate, but a strong, distinctive identity that attracts a food-conscious audience without alienating anyone. Classic and recognisable, but never boring.
+    description: `The brief of this personal project was to build a brand that is genuinely traditional in its food and values, but refuses to look like every other Italian restaurant. Classic and recognisable, but never boring.
 
-The solution was to strip away everything decorative and work with restraint. A logo that feels handcrafted but precise, a palette drawn from Italian domestic interiors rather than restaurant clichés, typography that references tradition without quoting it directly. The art direction avoids staged food photography - natural light, real gestures, images that feel like a memory rather than an advertisement. The social media system was designed to maintain this tone consistently: a grid that feels curated without feeling cold, stories that communicate practically without losing warmth.
-
-Brand identity including logo, typography and collaterals, social media system with Instagram grid, stories layouts and highlights, and a supporting print material as part of the communication strategy.`,
-    images: { cover: "img/casa bosa - hero.jpg", hero: "img/casa bosa - hero.jpg", gallery: [] }
+The solution was restraint. A handcrafted but precise logo, a palette drawn from Italian culture, but used in a fresh way, typography that references tradition without quoting it directly. The photography direction avoids anything staged - natural light, real gestures, images that feel like a memory. The social media system maintains this tone consistently across grid, stories and highlights.`,
+    images: { cover: "img/casa bosa - hero.jpg", hero: "img/casa bosa 01.gif", gallery: [
+      "img/casa bosa 01.gif",
+      { layout: 'duo', srcs: ['img/casa bosa 02.jpg', 'img/casa bosa 03.jpg'] }
+    ] }
   },
 ];

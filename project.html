@@ -16,6 +16,7 @@
   --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --mono: 'DM Mono', monospace;
   --nav-h: 44px;
+  --gap: 10px;
 }
 
 html { scroll-behavior: smooth; }
@@ -80,7 +81,7 @@ main { margin-top: var(--nav-h); }
   border-bottom: 1px solid var(--border);
 }
 .info-cell {
-  padding: 20px 20px 18px;
+  padding: 20px var(--gap) 18px;
 }
 .info-label {
   font-family: var(--mono); font-size: 10px; font-weight: 300;
@@ -97,7 +98,8 @@ main { margin-top: var(--nav-h); }
 }
 
 .project-body {
-  padding: 32px 32px 48px;
+  padding: var(--gap);
+  padding-bottom: calc(var(--gap) * 3);
 }
 
 .project-title-large {
@@ -117,22 +119,8 @@ main { margin-top: var(--nav-h); }
 /* IMAGE GALLERY */
 .project-images {
   display: grid;
-  gap: 2px;
+  gap: var(--gap);
 }
-
-.img-row-1 { grid-template-columns: 1fr; }
-
-.project-image-block {
-  background: #ececec;
-  aspect-ratio: 16/10;
-  /* Replace with <img> */
-  position: relative;
-  overflow: hidden;
-}
-.project-image-block.tall { aspect-ratio: 3/4; }
-.project-image-block + .project-image-block { }
-
-.img-section { margin-bottom: 2px; }
 
 /* NAV PREV/NEXT */
 .project-nav {
@@ -291,13 +279,20 @@ main { margin-top: var(--nav-h); }
   // Gallery images
   if (p.images && p.images.gallery && p.images.gallery.length) {
     const galleryEl = document.querySelector('.project-images');
-    galleryEl.innerHTML = p.images.gallery.map(src => `
-      <div class="img-section img-row-1" style="display:grid;">
-        <div class="project-image-block" style="aspect-ratio:unset;">
-          <img src="${src}" style="width:100%;display:block;" alt="">
-        </div>
-      </div>
-      <div style="height:2px;"></div>`).join('');
+    galleryEl.innerHTML = p.images.gallery.map(item => {
+      if (typeof item === 'string') {
+        return `<div style="overflow:hidden;">
+          <img src="${item}" style="width:100%;display:block;" alt="">
+        </div>`;
+      } else if (item.layout === 'duo') {
+        return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);">
+          ${item.srcs.map(src => `<div style="aspect-ratio:1/1;overflow:hidden;background:#ececec;">
+            <img src="${src}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="">
+          </div>`).join('')}
+        </div>`;
+      }
+      return '';
+    }).join('');
   }
 
   document.querySelector('.psb-label').textContent = `${p.category} — ${p.year}`;
