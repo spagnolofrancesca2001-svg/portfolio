@@ -114,8 +114,10 @@ The volume was published by Lettera22 and distributed through the museum booksho
 
 The solution was restraint. A handcrafted but precise logo, a palette drawn from Italian culture, but used in a fresh way, typography that references tradition without quoting it directly. The photography direction avoids anything staged - natural light, real gestures, images that feel like a memory. The social media system maintains this tone consistently across grid, stories and highlights.`,
     images: { cover: "img/casa bosa - hero.jpg", hero: "img/casa bosa 01.gif", gallery: [
-      "img/casa bosa 01.gif",
-      { layout: 'duo', srcs: ['img/casa bosa 02.jpg', 'img/casa bosa 03.jpg'] }
+      "img/casa bosa - gif iniziale.gif",
+      { layout: 'duo', srcs: ['img/casa bosa 02.jpg', 'img/casa bosa 03.jpg'] },
+      "img/casa bosa – brand.jpg",
+      { layout: 'duo', srcs: ['img/casa bosa 04.jpg', 'img/casa bosa 05.gif'] }
     ] }
   },
 ];
