@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Progetto — Francesca Spagnolo</title>
+<meta name="description" content="Francesca Spagnolo - visual designer and art director working across fashion, beauty and food brands. Brand identity, campaigns and digital design.">
+<meta property="og:title" content="Francesca Spagnolo">
+<meta property="og:description" content="Francesca Spagnolo - visual designer and art director working across fashion, beauty and food brands. Brand identity, campaigns and digital design.">
+<meta property="og:image" content="img/tomasa-hero.jpg">
+<meta property="og:type" content="website">
+<title>Francesca Spagnolo</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -110,16 +115,21 @@ main { margin-top: var(--nav-h); }
 }
 
 .project-description {
-  font-size: 13px; font-weight: 300; line-height: 1.75;
-  color: var(--muted); max-width: 640px;
+  font-size: 20px; font-weight: 300; line-height: 1.75;
+  color: var(--fg); max-width: 640px;
   margin-bottom: 40px;
 }
 .project-description p + p { margin-top: 16px; }
+@media (max-width: 800px) {
+  .project-description { font-size: 15px; }
+}
 
 /* IMAGE GALLERY */
 .project-images {
   display: grid;
   gap: var(--gap);
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 /* NAV PREV/NEXT */
@@ -140,6 +150,17 @@ main { margin-top: var(--nav-h); }
 .proj-nav-link:hover { color: var(--muted); }
 .proj-nav-arrow { font-size: 20px; flex-shrink: 0; }
 .proj-nav-title { font-size: 13px; font-weight: 400; color: var(--fg); }
+
+/* CONTACT FOOTER */
+.project-contact {
+  display: flex; justify-content: center; align-items: center;
+  padding: 16px 20px 24px;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono); font-size: 11px; font-weight: 300;
+  letter-spacing: 0.05em; color: var(--muted);
+}
+.project-contact a { color: var(--fg); text-decoration: none; transition: color 0.15s; }
+.project-contact a:hover { color: var(--muted); }
 
 /* STICKY TITLE BAR */
 .project-sticky-bar {
@@ -174,6 +195,30 @@ main { margin-top: var(--nav-h); }
   border-radius: 50%; position: fixed; pointer-events: none;
   z-index: 9999; transform: translate(-50%, -50%);
   transition: width 0.2s, height 0.2s, background 0.2s;
+}
+
+/* DUO VIDEO */
+.duo-video {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  padding: 40px 0;
+  width: 100%;
+}
+.duo-video-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.duo-video video {
+  max-height: calc(70vh - var(--nav-h));
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+@media (max-width: 800px) {
+  .duo-video { grid-template-columns: 1fr; }
 }
 
 /* RESPONSIVE */
@@ -221,35 +266,11 @@ main { margin-top: var(--nav-h); }
   <div class="project-content">
 
     <div class="project-body">
-<p class="project-description">
-        Descrizione del progetto. Racconta il brief, l'approccio creativo e il risultato. Cosa rendeva questo progetto interessante? Quale problema hai risolto? Come hai lavorato con il cliente? Sii specifico e diretto — chi legge vuole capire il tuo processo, non solo vedere i risultati.
-      </p>
-
-      <!-- Immagini progetto -->
-      <div class="project-images">
-        <div class="img-section img-row-1" style="display:grid;">
-          <div class="project-image-block" style="aspect-ratio:16/9;background:#e8e8e8;"></div>
-        </div>
-
-        <div style="height:2px;"></div>
-
-        <div class="img-section img-row-1" style="display:grid;">
-          <div class="project-image-block" style="background:#f0f0f0;"></div>
-        </div>
-
-        <div style="height:2px;"></div>
-
-        <div class="img-section img-row-1" style="display:grid;">
-          <div class="project-image-block" style="background:#e4e4e4;"></div>
-        </div>
-
-        <div style="height:2px;"></div>
-
-        <div class="img-section img-row-1" style="display:grid;">
-          <div class="project-image-block" style="aspect-ratio:16/9;background:#eaeaea;"></div>
-        </div>
-      </div>
-
+      <div class="project-description" id="desc-1"></div>
+      <div class="project-images" id="gallery-1"></div>
+      <div class="project-description" id="desc-2"></div>
+      <div class="project-images" id="gallery-2"></div>
+      <div class="project-description" id="desc-3"></div>
     </div>
   </div>
 
@@ -259,16 +280,25 @@ main { margin-top: var(--nav-h); }
     <a class="proj-nav-link" id="proj-next"><span class="proj-nav-title"></span><span class="proj-nav-arrow">→</span></a>
   </div>
 
+  <div class="project-contact">
+    <a href="mailto:francescaspagnolo01@gmail.com">Let's talk</a>
+  </div>
+
 </main>
 
 <script src="data.js"></script>
 <script>
 (function() {
   const id = parseInt(new URLSearchParams(location.search).get('id')) || 0;
-  const p = projects[id] || projects[0];
+  const idx = projects.findIndex(pr => pr.id === id);
+  const i = idx >= 0 ? idx : 0;
+  const p = projects[i];
   const n = projects.length;
-  const prev = projects[(id - 1 + n) % n];
-  const next = projects[(id + 1) % n];
+  const prev = projects[(i - 1 + n) % n];
+  const next = projects[(i + 1) % n];
+  const alt = p.title.join(' ').replace(/"/g, '&quot;');
+
+  document.title = `${p.title.join(' ')} — Francesca Spagnolo`;
 
   // Hero image
   const heroEl = document.querySelector('.hero-img-placeholder');
@@ -276,34 +306,68 @@ main { margin-top: var(--nav-h); }
     heroEl.innerHTML = `<img src="${p.images.hero}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="${p.title.join(' ')}">`;
   }
 
-  // Gallery images
-  if (p.images && p.images.gallery && p.images.gallery.length) {
-    const galleryEl = document.querySelector('.project-images');
-    galleryEl.innerHTML = p.images.gallery.map(item => {
-      if (typeof item === 'string') {
-        return `<div style="overflow:hidden;">
-          <img src="${item}" style="width:100%;display:block;" alt="">
-        </div>`;
-      } else if (item.layout === 'duo') {
-        return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);">
-          ${item.srcs.map(src => `<div style="aspect-ratio:1/1;overflow:hidden;background:#ececec;">
-            <img src="${src}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="">
-          </div>`).join('')}
-        </div>`;
-      }
-      return '';
-    }).join('');
+  function renderItem(item) {
+    if (typeof item === 'string') {
+      return `<div style="overflow:hidden;">
+        <img src="${item}" style="width:100%;display:block;" alt="${alt}">
+      </div>`;
+    } else if (item.layout === 'duo-video') {
+      return `<div class="duo-video">
+        ${item.srcs.map(src => `<div class="duo-video-cell"><video src="${src}" autoplay loop muted playsinline></video></div>`).join('')}
+      </div>`;
+    } else if (item.layout === 'framed') {
+      return `<div style="background:#ffffff;padding:200px;overflow:hidden;">
+        <img src="${item.src}" style="width:100%;display:block;" alt="${alt}">
+      </div>`;
+    } else if (item.layout === 'framed-video') {
+      const speed = item.speed || 0.5;
+      return `<div style="background:#ffffff;padding:200px;overflow:hidden;">
+        <video src="${item.src}" style="width:100%;display:block;" autoplay loop muted playsinline data-speed="${speed}"></video>
+      </div>`;
+    } else if (item.layout === 'rotated') {
+      const deg = item.deg || 180;
+      return `<div style="overflow:hidden;">
+        <img src="${item.src}" style="width:100%;display:block;transform:rotate(${deg}deg);" alt="${alt}">
+      </div>`;
+    } else if (item.layout === 'trio') {
+      return `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--gap);">
+        ${item.srcs.map(src => `<div style="aspect-ratio:3/4;overflow:hidden;">
+          <img src="${src}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="${alt}">
+        </div>`).join('')}
+      </div>`;
+    } else if (item.layout === 'text') {
+      return `<p class="project-description" style="margin-top:0;">${item.content}</p>`;
+    } else if (item.layout === 'duo') {
+      return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);">
+        ${item.srcs.map(src => `<div style="aspect-ratio:1/1;overflow:hidden;background:#ececec;">
+          <img src="${src}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="${alt}">
+        </div>`).join('')}
+      </div>`;
+    }
+    return '';
   }
+
+  // Description split
+  const paras = p.description.split('\n\n').map(s => s.trim()).filter(Boolean);
+  document.getElementById('desc-1').innerHTML = paras[0] ? `<p>${paras[0]}</p>` : '';
+  document.getElementById('desc-2').innerHTML = paras[1] ? `<p>${paras[1]}</p>` : '';
+  document.getElementById('desc-3').innerHTML = paras.slice(2).map(s => `<p>${s}</p>`).join('');
+
+  // Gallery split: first item in gallery-1, rest in gallery-2
+  const gallery = (p.images && p.images.gallery) || [];
+  if (gallery.length > 0) document.getElementById('gallery-1').innerHTML = renderItem(gallery[0]);
+  if (gallery.length > 1) document.getElementById('gallery-2').innerHTML = gallery.slice(1).map(renderItem).join('');
 
   document.querySelector('.psb-label').textContent = `${p.category} — ${p.year}`;
   document.querySelector('.psb-title').innerHTML = p.title.join('<br>');
 
+  document.querySelectorAll('video[data-speed]').forEach(v => {
+    v.playbackRate = parseFloat(v.dataset.speed);
+  });
+
   document.querySelectorAll('[data-field]').forEach(el => {
     el.textContent = p[el.dataset.field] || '';
   });
-
-  const descEl = document.querySelector('.project-description');
-  descEl.innerHTML = p.description.split('\n').map(para => `<p>${para}</p>`).join('');
 
   const prevEl = document.getElementById('proj-prev');
   prevEl.href = `project.html?id=${prev.id}`;
