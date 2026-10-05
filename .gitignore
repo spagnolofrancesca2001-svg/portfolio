@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+
+# Local Claude Code settings
+.claude/settings.local.json
+
+# After Effects project files and autosaves
+*.aep
+Salvataggio automatico Adobe After Effects/
+
+# Original Suicoke screen recordings (site uses the converted .mp4)
+img/suicoke/*.mov

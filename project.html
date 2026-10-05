@@ -120,6 +120,14 @@ main { margin-top: var(--nav-h); }
   margin-bottom: 40px;
 }
 .project-description p + p { margin-top: 16px; }
+.project-description a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 0.15s;
+}
+.project-description a:hover { color: var(--muted); }
 @media (max-width: 800px) {
   .project-description { font-size: 15px; }
 }
@@ -150,6 +158,45 @@ main { margin-top: var(--nav-h); }
 .proj-nav-link:hover { color: var(--muted); }
 .proj-nav-arrow { font-size: 20px; flex-shrink: 0; }
 .proj-nav-title { font-size: 13px; font-weight: 400; color: var(--fg); }
+
+/* GIF GRID */
+.gif-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+}
+.gif-grid-cell { aspect-ratio: 9/16; overflow: hidden; }
+.gif-grid-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (max-width: 800px) {
+  .gif-grid { grid-template-columns: repeat(2, 1fr); }
+  .gif-grid-cell:nth-child(3) { grid-column: 1 / -1; }
+}
+
+/* TRIO */
+.trio {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--gap);
+}
+@media (max-width: 800px) {
+  .trio-mobile-full { grid-template-columns: 1fr; }
+}
+
+/* DUO */
+.duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+}
+@media (max-width: 800px) {
+  .duo-mobile-full { grid-template-columns: 1fr; }
+}
+
+/* FRAMED VIDEO */
+.framed-video { background: #ffffff; padding: 200px; overflow: hidden; }
+@media (max-width: 800px) {
+  .framed-video { padding: 0; }
+}
 
 /* CONTACT FOOTER */
 .project-contact {
@@ -303,10 +350,17 @@ main { margin-top: var(--nav-h); }
   // Hero image
   const heroEl = document.querySelector('.hero-img-placeholder');
   if (p.images && p.images.hero) {
-    heroEl.innerHTML = `<img src="${p.images.hero}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="${p.title.join(' ')}">`;
+    // On mobile use the dedicated hero when available
+    const heroSrc = (window.matchMedia('(max-width: 800px)').matches && p.images.heroMobile) || p.images.hero;
+    heroEl.innerHTML = `<img src="${heroSrc}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="${p.title.join(' ')}">`;
   }
 
+  const isMobileView = window.matchMedia('(max-width: 800px)').matches;
+
   function renderItem(item) {
+    // Mobile-only replacement: { src, mobile: [one or more images] }
+    if (item && item.mobile && isMobileView) return item.mobile.map(renderItem).join('');
+    if (item && item.src && !item.layout) return renderItem(item.src);
     if (typeof item === 'string') {
       return `<div style="overflow:hidden;">
         <img src="${item}" style="width:100%;display:block;" alt="${alt}">
@@ -321,7 +375,7 @@ main { margin-top: var(--nav-h); }
       </div>`;
     } else if (item.layout === 'framed-video') {
       const speed = item.speed || 0.5;
-      return `<div style="background:#ffffff;padding:200px;overflow:hidden;">
+      return `<div class="framed-video">
         <video src="${item.src}" style="width:100%;display:block;" autoplay loop muted playsinline data-speed="${speed}"></video>
       </div>`;
     } else if (item.layout === 'rotated') {
@@ -330,15 +384,19 @@ main { margin-top: var(--nav-h); }
         <img src="${item.src}" style="width:100%;display:block;transform:rotate(${deg}deg);" alt="${alt}">
       </div>`;
     } else if (item.layout === 'trio') {
-      return `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--gap);">
+      return `<div class="trio${item.mobileFull ? ' trio-mobile-full' : ''}">
         ${item.srcs.map(src => `<div style="aspect-ratio:3/4;overflow:hidden;">
           <img src="${src}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="${alt}">
         </div>`).join('')}
       </div>`;
     } else if (item.layout === 'text') {
       return `<p class="project-description" style="margin-top:0;">${item.content}</p>`;
+    } else if (item.layout === 'gif-grid') {
+      return `<div class="gif-grid">
+        ${item.srcs.map(src => `<div class="gif-grid-cell"><img src="${src}" alt="${alt}"></div>`).join('')}
+      </div>`;
     } else if (item.layout === 'duo') {
-      return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);">
+      return `<div class="duo${item.mobileFull ? ' duo-mobile-full' : ''}">
         ${item.srcs.map(src => `<div style="aspect-ratio:1/1;overflow:hidden;background:#ececec;">
           <img src="${src}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="${alt}">
         </div>`).join('')}

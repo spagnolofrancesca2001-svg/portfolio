@@ -175,23 +175,14 @@ nav {
     top: var(--nav-h);
     width: 100% !important;
     height: calc(100vh - var(--nav-h));
-    height: calc(100dvh - var(--nav-h));
+    height: calc(100svh - var(--nav-h));
     flex-shrink: 0;
     border-radius: 12px;
-    box-shadow: 0 -4px 28px rgba(0,0,0,0.10);
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
     transform-origin: center top;
+    will-change: auto; /* promoted from JS only while visible */
     cursor: auto;
   }
-  .project-item:nth-child(1)  { z-index: 2 !important; }
-  .project-item:nth-child(2)  { z-index: 3 !important; }
-  .project-item:nth-child(3)  { z-index: 4 !important; }
-  .project-item:nth-child(4)  { z-index: 5 !important; }
-  .project-item:nth-child(5)  { z-index: 6 !important; }
-  .project-item:nth-child(6)  { z-index: 7 !important; }
-  .project-item:nth-child(7)  { z-index: 8 !important; }
-  .project-item:nth-child(8)  { z-index: 9 !important; }
-  .project-item:nth-child(9)  { z-index: 10 !important; }
-  .project-item:nth-child(10) { z-index: 11 !important; }
   .project-placeholder { height: 100%; border-radius: 12px; }
   .project-overlay {
     opacity: 1;
@@ -206,6 +197,18 @@ nav {
   .toggle-icon { display: block; }
   .toggle-btn { border-bottom: none; padding: 4px; }
   .toggle-btn.active { border-bottom: none; }
+}
+
+/* COVER TEXT CONTRAST: set from JS when the area behind the text is dark */
+.project-item.on-dark .project-overlay {
+  background: linear-gradient(rgba(0,0,0,0.35) 0%, transparent 100%);
+}
+.project-item.on-dark .project-label { color: rgba(255,255,255,0.75); }
+.project-item.on-dark .project-title { color: #ffffff; }
+@media (max-width: 768px) {
+  .project-item.on-dark .project-overlay {
+    background: linear-gradient(rgba(0,0,0,0.30) 0%, transparent 38%);
+  }
 }
 </style>
 </head>
@@ -244,13 +247,15 @@ nav {
 <script>
 (function() {
   const track = document.getElementById('scrollTrack');
+  const mobile = window.matchMedia('(max-width: 768px)').matches;
   projects.forEach(p => {
     const el = document.createElement('div');
     el.className = 'project-item';
-    const cover = p.images && p.images.cover;
+    // On mobile use the lighter, portrait-cropped cover when available
+    const cover = p.images && ((mobile && p.images.coverMobile) || p.images.cover);
     el.innerHTML = `
       ${cover
-        ? `<img src="${cover}" class="project-img" alt="${p.title.join(' ')}">`
+        ? `<img src="${cover}" class="project-img" decoding="async" alt="${p.title.join(' ')}">`
         : `<div class="project-placeholder"></div>`}
       <a href="project.html?id=${p.id}" class="project-link"></a>
       <div class="project-overlay">
@@ -259,6 +264,44 @@ nav {
       </div>`;
     track.appendChild(el);
   });
+
+  // Measure brightness of the cover area behind the text (top strip, as cropped by object-fit: cover)
+  // and switch the text to white on dark covers. Capture listener also catches cloned cards.
+  const toneCache = {};
+  const canvas = document.createElement('canvas');
+  canvas.width = 32; canvas.height = 8;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+  function isDark(img, card) {
+    const W = card.clientWidth, H = card.clientHeight;
+    const iw = img.naturalWidth, ih = img.naturalHeight;
+    if (!W || !H || !iw || !ih) return false;
+    const scale = Math.max(W / iw, H / ih);
+    const sw = W / scale;
+    const sx = (iw - sw) / 2;
+    const sy = (ih - H / scale) / 2;
+    const sh = Math.min(140, H * 0.3) / scale; // height of the text zone
+    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+    const d = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let lum = 0;
+    for (let i = 0; i < d.length; i += 4) lum += 0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2];
+    return lum / (d.length / 4) < 90; // only clearly dark covers; mid tones keep black text on the white veil
+  }
+
+  function applyTone(img) {
+    const card = img.closest('.project-item');
+    if (!card) return;
+    const key = img.currentSrc || img.src;
+    if (!(key in toneCache)) {
+      try { toneCache[key] = isDark(img, card); } catch (e) { toneCache[key] = false; }
+    }
+    card.classList.toggle('on-dark', toneCache[key]);
+  }
+
+  track.addEventListener('load', e => {
+    if (e.target.classList && e.target.classList.contains('project-img')) applyTone(e.target);
+  }, true);
+  track.querySelectorAll('.project-img').forEach(img => { if (img.complete) applyTone(img); });
 })();
 </script>
 
@@ -346,22 +389,56 @@ if (!isMobile) {
   });
 
 } else {
-  // ── MOBILE: vertical stacking ──
+  // ── MOBILE: vertical stacking (no infinite loop: it was janky on phones) ──
   const track = document.getElementById('scrollTrack');
   const items = Array.from(track.querySelectorAll('.project-item'));
   const navH  = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 44;
 
+  // Increasing z-index so each card covers the previous
+  items.forEach((card, i) => { card.style.zIndex = i + 2; });
+
+  // Card height is fixed (svh), so positions can be computed without measuring the DOM on scroll
+  let cardH = items[0].offsetHeight;
+  let lastW = window.innerWidth;
+  window.addEventListener('resize', () => {
+    if (window.innerWidth === lastW) return; // ignore address-bar show/hide
+    lastW = window.innerWidth;
+    cardH = items[0].offsetHeight;
+    requestUpdate();
+  });
+
+  const state = []; // last applied scale/visibility per card, to skip redundant writes
   function updateStack() {
-    const vh = window.innerHeight;
+    ticking = false;
+    const y = window.scrollY;
+
+    // Index of the card currently pinned under the nav
+    const top = Math.max(0, Math.floor(y / cardH));
     items.forEach((card, i) => {
-      if (i === items.length - 1) return;
-      const rect = items[i + 1].getBoundingClientRect();
-      const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh - navH)));
-      card.style.transform = progress > 0 ? `scale(${1 - progress * 0.10})` : '';
+      // Cards fully covered by two others are invisible: skip painting them
+      const hidden = i < top - 1;
+      let scale = 1;
+      if (!hidden && i < items.length - 1) {
+        const nextTop = Math.max(navH, navH + (i + 1) * cardH - y);
+        const progress = Math.max(0, Math.min(1, (cardH + navH - nextTop) / cardH));
+        scale = 1 - progress * 0.10;
+      }
+      const prev = state[i] || {};
+      if (prev.hidden !== hidden) {
+        card.style.visibility = hidden ? 'hidden' : '';
+        card.style.willChange = hidden ? 'auto' : 'transform';
+      }
+      if (!hidden && prev.scale !== scale) card.style.transform = scale < 1 ? `scale(${scale})` : '';
+      state[i] = { hidden, scale: hidden ? prev.scale : scale };
     });
   }
 
-  window.addEventListener('scroll', updateStack, { passive: true });
+  let ticking = false;
+  function requestUpdate() {
+    if (!ticking) { ticking = true; requestAnimationFrame(updateStack); }
+  }
+
+  window.addEventListener('scroll', requestUpdate, { passive: true });
   updateStack();
 }
 </script>

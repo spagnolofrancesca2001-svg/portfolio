@@ -8,13 +8,18 @@ const projects = [
     role: "Art Direction, Video Editing",
     description: `forte_forte is an Italian advanced contemporary fashion brand, present in 11 boutiques worldwide and 600 wholesale partners. For their SS25 capsule collection, they collaborated with Tomasa - a Guatemalan accessories brand rooted in the beadwork tradition of an indigenous community from the villages around Lake Atitlán. The result was six handmade beaded necklaces, each depicting a different animal. My role was art direction, photography direction and video content for the launch campaign.
 
-With a very tight timeline and a limited budget, there was no room for a full video production - the challenge was to make the craftsmanship feel alive rather than simply documented. I gave each animal its own personality by separating still life photographs into layers in After Effects and animating them digitally - five short videos, five different characters. The result sits somewhere between stop motion and illustration.
+With a very tight timeline and a limited budget, there was no room for a full video production - the challenge was to make the craftsmanship feel alive rather than simply documented. I gave each animal its own personality by separating still life photographs into layers in After Effects and animating them digitally - six short videos, six different characters. The result sits somewhere between stop motion and illustration.
 
-The campaign was covered by WWD, Vogue Italia, Elle France and Pambianco, and the collection launched across forte_forte's boutiques and e-commerce.`,
+The campaign was covered by <a href="https://wwd.com/fashion-news/fashion-scoops/forte_forte-tomasa-collaboration-handmade-beaded-jewelry-capsule-collection-1237088129/" target="_blank" rel="noopener">WWD</a>, <a href="https://www.vogue.it/article/collana-colorata-fai-da-te-modelli-tendenza-estate" target="_blank" rel="noopener">Vogue Italia</a>, <a href="https://www.elle.fr/Mode/Les-news-mode/Reformation-x-Jimmy-Fairly-Roseanna-x-Meduse-Les-meilleures-collabs-du-moment-4346419" target="_blank" rel="noopener">Elle France</a> and <a href="https://www.pambianconews.com/news-prodotto/la-capsule-forte_forte-loves-tomasa-celebra-larte-del-fatto-a-mano/" target="_blank" rel="noopener">Pambianco</a>, and the collection launched across forte_forte's boutiques and e-commerce.`,
     images: {
-      cover: "img/tomasa-hero.jpg",
-      hero: "img/tomasa-hero.jpg",                                              
-      gallery: []                
+      cover: "img/tomasa-hero.jpg", coverMobile: "img/mobile/tomasa-hero.jpg",
+      hero: "img/tomasa-hero.jpg",
+      gallery: [
+        "img/tomasa/f_f mood_tomasa_15.jpg",
+        { layout: 'gif-grid', srcs: ['img/tomasa/f_f-struzzo.gif', 'img/tomasa/f_f-cavallo.gif', 'img/tomasa/f_f-giraffa.gif'] },
+        { layout: 'trio', mobileFull: true, srcs: ['img/tomasa/f_f mood_tomasa_01.jpg', 'img/tomasa/f_f mood_tomasa_03.jpg', 'img/tomasa/f_f mood_tomasa_04.jpg'] },
+        { layout: 'gif-grid', srcs: ['img/tomasa/f_f-pappagallo.gif', 'img/tomasa/f_f-leone.gif', 'img/tomasa/f_f-tigre.gif'] }
+      ]
     }                                                                           
   },
   {
@@ -36,10 +41,10 @@ The campaign was covered by Marie Claire Italia, Grazia, Vanity Fair Italia, Won
       "img/suicoke/ff_suicoke screen 1.jpg",
       "img/suicoke/ff_suicoke_05.jpg",
       { layout: 'trio', srcs: ['img/suicoke/ff_suicoke_32.jpg', 'img/suicoke/ff_suicoke_37.jpg', 'img/suicoke/ff_suicoke_08.jpg'] },
-      { layout: 'duo', srcs: ['img/suicoke/suicoke-01.jpg', 'img/suicoke/suicoke-03.jpg'] },
+      { layout: 'duo', mobileFull: true, srcs: ['img/suicoke/suicoke-01.jpg', 'img/suicoke/suicoke-03.jpg'] },
       "img/suicoke/suicoke-07.jpg",
       { layout: 'text', content: 'The capsule was communicated across forte_forte\'s Instagram, newsletter and website, with content adapted for each channel.' },
-      { layout: 'duo-video', srcs: ['img/suicoke/ScreenRecording_09-28-2026 22-59-07_1.mov', 'img/suicoke/ScreenRecording_09-28-2026 23-01-56_1.mov'] }
+      { layout: 'duo-video', srcs: ['img/suicoke/suicoke-video-1.mp4', 'img/suicoke/suicoke-video-2.mp4'] }
     ]
     }
   },
@@ -54,19 +59,21 @@ The campaign was covered by Marie Claire Italia, Grazia, Vanity Fair Italia, Won
 
 The project was developed during my internship at Numbered Studio in Amsterdam, under the supervision of Jack Milburn. The direction was clean and high-fashion - a visual language that could sit comfortably alongside luxury brands without feeling derivative. Beyond the core identity, we developed a tag system for the website to help users navigate the platform's dual offer of rental and purchase at a glance. This was not in the original brief but emerged as a natural UX solution during the process.`,
     images: {
-      cover: "img/My Wardrobe-hero.jpg",
-      hero: "img/My Wardrobe-hero.jpg",
+      cover: "img/My Wardrobe-hero.jpg", coverMobile: "img/mobile/My Wardrobe-hero.jpg",
+      hero: "img/My Wardrobe-hero.jpg", heroMobile: "img/mobile/My Wardrobe-hero.jpg",
       gallery: [
-        { layout: 'duo', srcs: ['img/my wardrobe/splitscreen 1.gif', 'img/my wardrobe/splitscreen 2.jpg'] },
+        { layout: 'duo', mobileFull: true, srcs: ['img/my wardrobe/splitscreen 1.gif', 'img/my wardrobe/splitscreen 2.jpg'] },
         "img/my wardrobe/screen 3 – palette.jpg",
         "img/my wardrobe/screen 4.gif",
-        "img/my wardrobe/screen 12.jpg",
+        { src: "img/my wardrobe/screen 12.jpg", mobile: ["img/mobile/my wardorbe/screen 12.jpg"] },
         { layout: 'text', content: 'The brand identity was fully implemented on the existing website and across the brand\'s communication. My Wardrobe HQ now reads as a luxury platform first - the rental model is the product, not the message.' },
         { layout: 'framed-video', src: 'img/my wardrobe/Senza nome.mp4', speed: 0.75 },
         "img/my wardrobe/screen 7.jpg",
-        "img/my wardrobe/screen 8.jpg",
-        "img/my wardrobe/screen 9.jpg",
-        "img/my wardrobe/screen 10.jpg"
+        { src: "img/my wardrobe/screen 8.jpg", mobile: ["img/mobile/my wardorbe/screen 8.jpg", "img/mobile/my wardorbe/screen 8 copia.jpg"] },
+        { layout: 'duo', mobileFull: true, srcs: ["img/mobile/my wardorbe/screen 6.jpg", "img/mobile/my wardorbe/screen 6 copia.jpg"] },
+        { layout: 'duo', mobileFull: true, srcs: ["img/mobile/my wardorbe/screen 11.jpg", "img/mobile/my wardorbe/screen 11 copia.jpg"] },
+        { src: "img/my wardrobe/screen 9.jpg", mobile: ["img/mobile/my wardorbe/screen 9.jpg"] },
+        { src: "img/my wardrobe/screen 10.jpg", mobile: ["img/mobile/my wardorbe/screen 10.jpg", "img/mobile/my wardorbe/screen 10 copia.jpg"] }
       ]
     }
   },
@@ -82,13 +89,13 @@ The project was developed during my internship at Numbered Studio in Amsterdam, 
 The name stretches the word "soup" just enough to make it feel contemporary, closer to a streetwear or food-tech brand than a traditional eatery. Every visual choice works against the stereotype: a bold hand-drawn logo, a warm but punchy terracotta palette, and a photography direction based on flash, real kitchens and people eating together.
 
 The identity covers logo, typography, colour palette, Instagram feed and stories, staff uniform, signage and menu - a system designed to stay recognisable even without the logo.`,
-    images: { cover: "img/SUUP-hero.jpg", hero: "img/SUUP-hero.jpg", gallery: [
+    images: { cover: "img/SUUP-hero.jpg", coverMobile: "img/mobile/SUUP-hero.jpg", hero: "img/SUUP-hero.jpg", gallery: [
       "img/suup/deck 1 - logo.jpg",
-      { layout: 'duo', srcs: ['img/suup/palette.jpg', 'img/suup/uniforme.jpg'] },
+      { layout: 'duo', mobileFull: true, srcs: ['img/suup/palette.jpg', 'img/suup/uniforme.jpg'] },
       "img/suup/deck 2 – video ingredienti.gif",
-      { layout: 'duo', srcs: ['img/suup/menu.jpg', 'img/suup/esterni.jpg'] },
+      { layout: 'duo', mobileFull: true, srcs: ['img/suup/menu.jpg', 'img/suup/esterni.jpg'] },
       "img/suup/storie.jpg",
-      { layout: 'duo', srcs: ['img/suup/grid.jpg', 'img/suup/storie evi.jpg'] }
+      { layout: 'duo', mobileFull: true, srcs: ['img/suup/grid.jpg', 'img/suup/storie evi.jpg'] }
     ] }
   },
   {
@@ -103,11 +110,11 @@ The identity covers logo, typography, colour palette, Instagram feed and stories
 My work covered naming, logo design, claim - love yourself, always - colour palette and all brand collaterals, plus art direction for packshots and mood photography. The packaging was developed in collaboration with Daam Studio for the technical production aspects. The direction was quiet and intentional: a soft sans-serif logotype built on Anna's initials, an all-white packaging system, and a visual language designed to feel personal without being precious.
 
 Animae launched with a lip and face collection and has since expanded into a full skincare range - serums, creams, eye care and more - maintaining the same visual identity across an increasingly wide product line.`,
-    images: { cover: "img/animae-hero.jpg", hero: "img/animae-hero.jpg", gallery: [
-      { layout: 'duo', srcs: ['img/animae – 01.jpg', 'img/animae – 02.gif'] },
-      { layout: 'duo', srcs: ['img/animae – 04.gif', 'img/animae – 03.jpg'] },
+    images: { cover: "img/animae-hero.jpg", coverMobile: "img/mobile/animae-hero.jpg", hero: "img/animae-hero.jpg", gallery: [
+      { layout: 'duo', mobileFull: true, srcs: ['img/animae – 01.jpg', 'img/animae – 02.gif'] },
+      { layout: 'duo', mobileFull: true, srcs: ['img/animae – 04.gif', 'img/animae – 03.jpg'] },
       "img/animae social.jpg",
-      { layout: 'duo', srcs: ['img/animae 07.jpg', 'img/animae 08.jpg'] },
+      { layout: 'duo', mobileFull: true, srcs: ['img/animae 07.jpg', 'img/animae 08.jpg'] },
       "img/animae – 06.jpg",
       "img/animae – 05.jpg"
     ] }
@@ -124,13 +131,13 @@ Animae launched with a lip and face collection and has since expanded into a ful
 The identity is built around the idea of home, summed up in the claim "feels like home". A house-shaped mark holds the initials, paired with a serif logotype and handwritten notes that bring back the warmth of a family kitchen. The palette is drawn from Italian culture but used in a fresh way, and the photography avoids anything staged: natural light, real gestures, images that feel like a memory.
 
 The system covers logo, typography, palette, menu, signage, staff uniforms, merchandise and social media, with templates for feed, stories and highlights.`,
-    images: { cover: "img/casa bosa - hero.jpg", hero: "img/casa bosa 01.gif", gallery: [
+    images: { cover: "img/casa bosa - hero.jpg", coverMobile: "img/mobile/casa bosa - hero.jpg", hero: "img/casa bosa 01.gif", gallery: [
       "img/casa bosa - gif iniziale.gif",
-      { layout: 'duo', srcs: ['img/casa bosa 02.jpg', 'img/casa bosa 03.jpg'] },
+      { layout: 'duo', mobileFull: true, srcs: ['img/casa bosa 02.jpg', 'img/casa bosa 03.jpg'] },
       "img/casa bosa – brand.jpg",
-      { layout: 'duo', srcs: ['img/casa bosa 04.jpg', 'img/casa bosa 05.gif'] },
+      { layout: 'duo', mobileFull: true, srcs: ['img/casa bosa 04.jpg', 'img/casa bosa 05.gif'] },
       "img/casa bosa SOCIAL.jpg",
-      { layout: 'duo', srcs: ['img/casa bosa 06.jpg', 'img/casa bosa 07.jpg'] }
+      { layout: 'duo', mobileFull: true, srcs: ['img/casa bosa 06.jpg', 'img/casa bosa 07.jpg'] }
     ] }
   },
 ];
