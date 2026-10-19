@@ -95,11 +95,11 @@ The identity covers logo, typography, colour palette, Instagram feed and stories
       "img/suup/deck 1 - logo.jpg",
       { layout: 'duo', mobileFull: true, srcs: ['img/suup/palette.jpg', 'img/suup/uniforme.jpg'] },
       "img/suup/deck 2 – video ingredienti.gif",
-      { layout: 'duo', mobileFull: true, srcs: ['img/suup/menu.jpg', 'img/suup/menu vini.jpg'] },
-      { layout: 'duo', mobileFull: true, srcs: ['img/suup/esterni.jpg', 'img/suup/poster.jpg'] },
+      { layout: 'duo', mobileFull: true, srcs: ['img/suup/menu vini.jpg', 'img/suup/sottobicchieri.jpg'] },
+      { layout: 'duo', mobileFull: true, srcs: ['img/suup/menu.jpg', 'img/suup/poster.jpg'] },
       "img/suup/storie.jpg",
       { layout: 'duo', mobileFull: true, srcs: ['img/suup/grid.jpg', 'img/suup/storie evi.jpg'] },
-      { layout: 'trio', mobileFull: true, srcs: ['img/suup/loyal club.jpg', 'img/suup/sottobicchieri.jpg', 'img/suup/tote.jpg'] }
+      { layout: 'duo', mobileFull: true, srcs: ['img/suup/loyal club.jpg', 'img/suup/tote.jpg'] }
     ] }
   },
   {
